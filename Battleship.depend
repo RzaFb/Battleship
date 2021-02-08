@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1612766711 source:d:\codeblocks\battleship\main.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<string.h>
+	<ctype.h>
+	<stdbool.h>
+	<time.h>
+	<math.h>
+
