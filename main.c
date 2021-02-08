@@ -7,9 +7,11 @@
 #include <time.h>
 #include <math.h>
 
+int N = 10;
 char player1[10], player2[10];
 
 bool p1 = false;
+bool target = false;
 
 typedef struct
 {
@@ -20,7 +22,7 @@ typedef struct
 
 typedef struct Pr
 {
-    char username[50];
+    char username[10];
     int score;
 
     struct Pr *next;
@@ -28,20 +30,19 @@ typedef struct Pr
 
 typedef struct shp
 {
-    char username[50];
     int lenght;
     int x;
     int y;
-    int direction;
+    char direction;
 
     struct shp *next;
 }Ship;
 
-void gameBoard(Cell gameBoard[][10])
+void gameBoard(Cell gameBoard[][N])
 {
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < N; i++)
     {
-        for(int j = 0; j < 10; j++)
+        for(int j = 0; j < N; j++)
         {
             gameBoard[i][j].symbol = 'W';
             gameBoard[i][j].x = i;
@@ -72,10 +73,10 @@ void showMap()
     int position = 0;
     printf("\t\t    A\t    B\t    C\t    D\t    E\t    F\t    G\t    H\t    I\t    J\n");
     printf("\t\t---------------------------------------------------------------------------------\n\t");
-    for(int i = 0; i<10; i++)
+    for(int i = 0; i<N; i++)
     {
         printf("     %d",i+1);
-        for(int j = 0; j<10 ; j++)
+        for(int j = 0; j<N ; j++)
         {
             printf("\t|   O");
         }
@@ -131,7 +132,6 @@ void newProfile()
     FILE *fp;
     fp = fopen("Profiles.txt","a+");
     fprintf(fp,"%s%s%d%s",new_data,":",0,"\n");
-    //fwrite(new_data,sizeof(char),strlen(new_data),fp);
     fclose(fp);
     printf("User created...\n");
     if(p1 == true)
@@ -144,6 +144,31 @@ void newProfile()
         p1 = true;
     }
 
+}
+
+//function to add the ships to a list
+//input : head (aka pointer to first in the list)
+void pushShip(Ship** head_ref, int lenght)
+{
+    Ship* new_node = (Ship*) malloc(sizeof(Ship));
+
+    new_node->lenght  = lenght;
+
+    printf("please enter coordination\n first row\t second collumn\t third direction\n example: 5 6 H\t input: ");
+
+    int x,y,d;
+
+    scanf("%d %d %c",&x,&y,&d);
+
+    system("cls");
+
+    new_node->direction = d;
+    new_node->x = x;
+    new_node->y = y;
+
+    new_node->next = (*head_ref);
+
+    (*head_ref)    = new_node;
 }
 
 void setShips()
@@ -210,7 +235,11 @@ int showMenu(int num)
 int main()
 {
 
-    Cell p1_gameBoard[10][10],p2_gameBoard[10][10];
+    Ship *head = NULL;
+    pushShip(&head,5);
+
+
+    Cell p1_gameBoard[N][N],p2_gameBoard[N][N];
 
     gameBoard(p1_gameBoard);
     gameBoard(p2_gameBoard);
@@ -225,9 +254,9 @@ int main()
         system("cls");
         strcpy(player1,"BOT");
         p1 = true;
+        profileList();
         newProfile();
         system("cls");
-        profileList();
         getch();
         system("cls");
         setShips();
