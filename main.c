@@ -11,7 +11,12 @@ char player1[10], player2[10];
 
 bool p1 = false;
 
-void showCredits();
+typedef struct
+{
+    char symbol;
+    int x;
+    int y;
+}Cell;
 
 typedef struct Pr
 {
@@ -25,15 +30,57 @@ typedef struct shp
 {
     char username[50];
     int lenght;
-    int start;
+    int x;
+    int y;
+    int direction;
 
     struct shp *next;
 }Ship;
+
+void gameBoard(Cell gameBoard[][10])
+{
+    for(int i = 0; i < 10; i++)
+    {
+        for(int j = 0; j < 10; j++)
+        {
+            gameBoard[i][j].symbol = 'W';
+            gameBoard[i][j].x = i;
+            gameBoard[i][j].y = j;
+        }
+    }
+}
+
+void showCredits()
+{
+    system("cls");
+			{
+				printf("\n\n\n\n\n\n\n\n\n\n\n\t\t\t                            CREDITS\n");
+				printf("\t\t\t               DEVEOLPED BY REZA FARAHBAKHSH(9931074)\n");
+				delay(1500);
+				system("cls");
+			}
+}
 
 void delay(unsigned int mseconds)
 {
     clock_t goal = mseconds + clock();
     while (goal > clock());
+}
+
+void showMap()
+{
+    int position = 0;
+    printf("\t\t    A\t    B\t    C\t    D\t    E\t    F\t    G\t    H\t    I\t    J\n");
+    printf("\t\t---------------------------------------------------------------------------------\n\t");
+    for(int i = 0; i<10; i++)
+    {
+        printf("     %d",i+1);
+        for(int j = 0; j<10 ; j++)
+        {
+            printf("\t|   O");
+        }
+        printf("   |\n\t\t---------------------------------------------------------------------------------\n\t");
+    }
 }
 
 void profileList()
@@ -74,15 +121,6 @@ void newProfile()
     printf("please enter your Username (max 10 characters): ");
 
     scanf("%s",new_data);
-    if(p1 == true)
-    {
-        strcpy(player2,new_data);
-    }
-    else
-    {
-        strcpy(player1,new_data);
-        p1 = true;
-    }
 
      // check if user exists
      // fetch every line from file to array
@@ -96,19 +134,21 @@ void newProfile()
     //fwrite(new_data,sizeof(char),strlen(new_data),fp);
     fclose(fp);
     printf("User created...\n");
+    if(p1 == true)
+    {
+        strcpy(player2,new_data);
+    }
+    else
+    {
+        strcpy(player1,new_data);
+        p1 = true;
+    }
+
 }
 
 void setShips()
 {
-    int position = 0;
-    for(int i=1; i<=10; i++)
-    {
-        for(int j=1; j<=10; j++)
-        {
-            printf("%d\t",++position);
-        }
-        printf("\n\n");
-    }
+        showMap();
 }
 
 int showMenu(int num)
@@ -143,20 +183,22 @@ int showMenu(int num)
     printf("\t\t\t#                                                                      #\n");
     printf("\t\t\t#                                                                      #\n");
     printf("\t\t\t########################################################################\n");
-    delay(1000);
+    delay(2000);
     system ("cls");
 
-    printf("1. Play with a friend\n\n" ); //coming soon
+    //showMap();
+    //delay(5000);
+    system("cls");
+
+    printf("1. Play with a friend\n\n" );   //coming soon
 
     printf("2. Play with bot\n\n");
 
-    printf("3. Load game\n\n");           //coming soon
+    printf("3. Load game\n\n");             //coming soon
 
-    printf("4. Load last game\n\n");      //coming soon
+    printf("4. Settings (unavailable)\n\n");//coming soon
 
-    printf("5. Settings\n\n");            //coming soon
-
-    printf("6. Quit game\n\n");
+    printf("5. Quit game\n\n");
 
     printf("Please enter your choice: ");
     scanf("%d",&num);
@@ -168,13 +210,20 @@ int showMenu(int num)
 
 int main()
 {
+
+    Cell p1_gameBoard[10][10],p2_gameBoard[10][10];
+
+    gameBoard(p1_gameBoard);
+    gameBoard(p2_gameBoard);
+
     int choice = showMenu(1);
-    if(choice == 6)
+    if(choice == 5)
     {
         showCredits();
-        system("pause");
+        return 0;
     }else if(choice == 2)
     {
+        system("cls");
         strcpy(player1,"BOT");
         p1 = true;
         newProfile();
@@ -183,26 +232,10 @@ int main()
         getch();
         system("cls");
         setShips();
+        getch();
     }
 
+    showCredits();
+    return 0;
+}
 
-    system("pause");
-}
-void showCredits()
-{
-    system("cls");
-		int jc,fw,ic;
-				jc=25;
-						while(fw==0)
-			{
-				for(ic=0;ic<=jc;ic++)
-				printf("\n");
-				printf("                            CREDITS\n");
-				printf("               DEVEOLPED BY REZA FARAHBAKHSH(9931074)\n");
-				if(ic==0)
-                    fw=1;
-				delay(1000);
-				system ("cls");
-				jc=jc-1;
-			}
-}
