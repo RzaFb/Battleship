@@ -284,6 +284,30 @@ void appendShip(Ship** head_ref,Cell gameBoard[][11], int ln)
     return;
 }
 
+//function to check if ships are destroyed
+void deleteNode(Ship** head_ref)
+{
+    Ship *temp = *head_ref, *prev;
+
+    if (temp != NULL && temp->lenght == temp->explosion) {
+        *head_ref = temp->next; // Changed head
+        free(temp); // free old head
+        return;
+    }
+
+    while (temp != NULL && temp->lenght != temp->explosion) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp == NULL)
+        return;
+
+    prev->next = temp->next;
+
+    free(temp); // Free memory
+}
+
 int showMenu(int num)
 {
     printf("\n\n\n\n\n\n\n");
