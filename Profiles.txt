@@ -1,4 +1,4 @@
-BOT:0
 Reza:0
-Mamad:0
-F:0
+Ilde:0
+Abdu:0
+Abdolla:0
