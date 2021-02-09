@@ -10,6 +10,7 @@
 char player1[10], player2[10];
 
 int Ship_lenght[10] = {5, 3, 3, 2, 2, 2, 1, 1, 1, 1};
+int Ship_score[10] = {5, 8, 8, 12, 12, 12, 25, 25, 25, 25};
 
 bool p1 = false;
 bool target = false;
@@ -36,6 +37,7 @@ typedef struct shp
     int x;
     int y;
     char direction;
+    int score;
 
     struct shp *next;
 }Ship;
@@ -267,6 +269,7 @@ void appendShip(Ship** head_ref,Cell gameBoard[][11], int ln)
     new_node->direction = d;
     new_node->x = x;
     new_node->y = y;
+    new_node->score = Ship_score[ln];
 
 
     new_node->next = NULL;
@@ -306,6 +309,12 @@ void deleteNode(Ship** head_ref)
     prev->next = temp->next;
 
     free(temp); // Free memory
+}
+
+//function to check where the shot hit
+int checkShot(int x, int y, Ship* head)
+{
+
 }
 
 int showMenu(int num)
